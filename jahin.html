@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For My Prince</title>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Quicksand:wght@400;600&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    
+    <style>
+        :root {
+            /* Lighter, more transparent glass */
+            --glass-bg: rgba(255, 255, 255, 0.4); 
+            --glass-border: rgba(255, 255, 255, 0.5);
+            /* Deeper text color for readability */
+            --deep-berry: #7a202c; 
+            --accent-red: #d63447;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Quicksand', sans-serif;
+            /* Lighter pink-white gradient */
+            background: linear-gradient(180deg, #ffffff 0%, #fff0f3 50%, #ffe4e9 100%);
+            background-attachment: fixed;
+            color: var(--deep-berry);
+            overflow-x: hidden;
+        }
+
+        /* Floating Animation */
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+
+        /* Reduced section height for better flow */
+        section {
+            height: 70vh; 
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 40px 20px;
+        }
+
+        /* Glassmorphism Card */
+        .glass-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border: 1px solid var(--glass-border);
+            border-radius: 30px;
+            padding: 40px;
+            max-width: 600px;
+            text-align: center;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.05);
+            animation: float 5s ease-in-out infinite;
+            
+            /* Scroll transition effects */
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* When the card enters view */
+        .glass-card.appear {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        h1 {
+            font-family: 'Dancing Script', cursive;
+            font-size: 3.2rem;
+            color: var(--accent-red);
+            margin-bottom: 20px;
+        }
+
+        p {
+            font-size: 1.25rem;
+            line-height: 1.7;
+            color: var(--deep-berry);
+            font-weight: 600; /* Bolder for readability */
+            margin: 0;
+        }
+
+        /* Interactive Letter */
+        .envelope-wrapper {
+            cursor: pointer;
+            font-size: 80px;
+            margin: 20px 0;
+            transition: transform 0.3s;
+        }
+
+        .envelope-wrapper:hover {
+            transform: scale(1.1) rotate(5deg);
+        }
+
+        #the-question {
+            display: none;
+            padding: 20px;
+        }
+
+        button {
+            background: var(--accent-red);
+            color: white;
+            padding: 15px 45px;
+            font-size: 1.3rem;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: bold;
+            margin-top: 25px;
+            box-shadow: 0 4px 15px rgba(214, 52, 71, 0.3);
+            transition: background 0.3s;
+        }
+
+        button:hover {
+            background: #b52a3a;
+        }
+
+        #final-details {
+            display: none;
+            margin-top: 25px;
+            border-top: 1px solid rgba(0,0,0,0.1);
+            padding-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <section>
+        <div class="glass-card">
+            <h1>Heyy My Prince ❤️</h1>
+        </div>
+    </section>
+
+    <section>
+        <div class="glass-card">
+            <p>Jaaaaan… it’s been almost 10 months since we’ve been together. Even last year, during this time, if someone had told me that we’d be dating and planning our future together, I would have laughed it off, saying you’d never say yes. But now we can’t spend a day without each other.</p>
+        </div>
+    </section>
+
+    <section>
+        <div class="glass-card">
+            <p>It feels surreal to think that we’re in this beautiful relationship for such a long time, and with each passing day, I realize how much better my moments feel when you’re in them.</p>
+        </div>
+    </section>
+
+    <section>
+        <div class="glass-card">
+            <p>I know I haven’t been the best partner for a while, but I can promise you one thing, my love for you hasn’t decreased even the tiniest bit, and I feel myself falling in love with you more and more.</p>
+        </div>
+    </section>
+
+    <section>
+        <div class="glass-card">
+            <p>This is your very first Valentine’s Dayyyy, and your birthday is coming sooooon…</p>
+        </div>
+    </section>
+
+    <section>
+        <div class="glass-card">
+            <p style="margin-bottom: 15px;">Soooo I wanted to ask you…</p>
+            
+            <div id="letter-container" class="envelope-wrapper" onclick="openLetter()">
+                ✉️
+                <p style="font-size: 0.9rem; color: #888;">(Click to open)</p>
+            </div>
+
+            <div id="the-question">
+                <h1>Will you be my Valentine????? 😊</h1>
+                <button id="yes-btn" onclick="celebrate()">YES!</button>
+                
+                <div id="final-details">
+                    <p style="font-size: 1.5rem;">Yay! ❤️🥰</p>
+                    <p><strong>Feb 9th | You pick the timee</strong></p>
+                    <p>I love you a lot my jaaaan!</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        // Observer for the "Appear" and "Disappear" scroll effect
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('appear');
+                } else {
+                    // Optional: Remove 'appear' to make it disappear when scrolling away
+                    entry.target.classList.remove('appear');
+                }
+            });
+        }, { 
+            threshold: 0.2, // Trigger when 20% of the box is visible
+            rootMargin: "0px 0px -50px 0px" 
+        });
+
+        document.querySelectorAll('.glass-card').forEach(card => observer.observe(card));
+
+        function openLetter() {
+            document.getElementById('letter-container').style.display = 'none';
+            document.getElementById('the-question').style.display = 'block';
+        }
+
+        function celebrate() {
+            const duration = 6 * 1000;
+            const animationEnd = Date.now() + duration;
+
+            const interval = setInterval(function() {
+                const timeLeft = animationEnd - Date.now();
+                if (timeLeft <= 0) return clearInterval(interval);
+
+                confetti({
+                    particleCount: 40,
+                    startVelocity: 30,
+                    spread: 360,
+                    origin: { x: Math.random(), y: Math.random() - 0.2 },
+                    colors: ['#ff0000', '#ffb7c5', '#ffffff'],
+                    shapes: ['circle']
+                });
+            }, 300);
+
+            document.getElementById('yes-btn').style.display = 'none';
+            document.getElementById('final-details').style.display = 'block';
+        }
+    </script>
+</body>
+</html>
